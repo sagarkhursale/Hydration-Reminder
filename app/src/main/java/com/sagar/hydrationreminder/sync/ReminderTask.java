@@ -10,6 +10,7 @@ public  class ReminderTask {
 
     public static final String ACTION_INCREMENT_WATER_COUNT = "increment-water-count";
     public static final String ACTION_DISMISS_NOTIFICATION = "dismiss-notification";
+    static final String ACTION_CHARGING_REMINDER = "charging-reminder";
 
 
     public static void executeTask(Context context, String action) {
@@ -24,6 +25,12 @@ public  class ReminderTask {
     private static void incrementWaterCount(Context context) {
         PreferenceUtilities.incrementWaterCount(context);
         NotificationUtil.clearAllNotifications(context);
+    }
+
+
+    private static void issueChargingReminder(Context context) {
+        PreferenceUtilities.incrementChargingReminderCount(context);
+        NotificationUtil.remindUserBecauseCharging(context);
     }
 
 
