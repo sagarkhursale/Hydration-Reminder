@@ -1,5 +1,7 @@
 package com.sagar.hydrationreminder;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,7 +11,7 @@ import android.widget.TextView;
 import com.sagar.hydrationreminder.utilities.PreferenceUtilities;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     // Views
     private TextView mWaterCountDisplay;
@@ -29,6 +31,10 @@ public class MainActivity extends AppCompatActivity {
         // set original values in ui
         updateWaterCount();
         updateChargingReminderCount();
+
+        // Preference listener..
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        prefs.registerOnSharedPreferenceChangeListener(this);
 
 
 
@@ -53,6 +59,15 @@ public class MainActivity extends AppCompatActivity {
 
     // Image Button -Water_Increment..
     public void incrementWater(View view) {
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (PreferenceUtilities.KEY_WATER_COUNT.equals(key)) {
+            updateWaterCount();
+        } else if (PreferenceUtilities.KEY_CHARGING_REMINDER_COUNT.equals(key)) {
+            updateChargingReminderCount();
+        }
     }
 
 
