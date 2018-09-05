@@ -1,5 +1,7 @@
 package com.sagar.hydrationreminder;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -24,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     private ImageView mChargingImageView;
 
     IntentFilter mChargingIntentFilter;
-
+    ChargingBroadcastReceiver mChargingReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         prefs.registerOnSharedPreferenceChangeListener(this);
 
         mChargingIntentFilter = new IntentFilter();
+        mChargingReceiver = new ChargingBroadcastReceiver();
         mChargingIntentFilter.addAction(Intent.ACTION_POWER_CONNECTED);
         mChargingIntentFilter.addAction(Intent.ACTION_POWER_DISCONNECTED);
 
@@ -104,6 +107,16 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         }
     }
 
+
+    private class ChargingBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            boolean isCharging = (action.equals(Intent.ACTION_POWER_CONNECTED));
+
+            showCharging(isCharging);
+        }
+    }
 
     // END
 }
