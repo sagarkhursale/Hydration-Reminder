@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sagar.hydrationreminder.sync.ReminderTask;
+import com.sagar.hydrationreminder.sync.ReminderUtilities;
 import com.sagar.hydrationreminder.sync.WaterReminderIntentService;
 import com.sagar.hydrationreminder.utilities.PreferenceUtilities;
 
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         // set original values in ui
         updateWaterCount();
         updateChargingReminderCount();
+        ReminderUtilities.scheduleChargingReminder(this);
 
         // Preference listener..
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -59,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     }
 
+
     // Onclick()
     public void incrementWater(View view) {
         // increment water count using Intent-Service
@@ -67,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         startService(incrementWaterCountIntent);
     }
 
+
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (PreferenceUtilities.KEY_WATER_COUNT.equals(key)) {
@@ -74,6 +78,15 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         } else if (PreferenceUtilities.KEY_CHARGING_REMINDER_COUNT.equals(key)) {
             updateChargingReminderCount();
         }
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // cleanUp sharedPreference
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        prefs.unregisterOnSharedPreferenceChangeListener(this);
     }
 
 
