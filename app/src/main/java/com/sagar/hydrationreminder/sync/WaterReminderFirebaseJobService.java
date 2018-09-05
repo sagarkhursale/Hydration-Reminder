@@ -1,16 +1,15 @@
 package com.sagar.hydrationreminder.sync;
 
 import android.annotation.SuppressLint;
-import android.app.job.JobParameters;
 import android.content.Context;
 import android.os.AsyncTask;
-
 import com.firebase.jobdispatcher.JobService;
 
 
 public class WaterReminderFirebaseJobService extends JobService {
 
     private AsyncTask mBackgroundTask;
+
 
     @SuppressLint("StaticFieldLeak")
     @Override
@@ -33,6 +32,7 @@ public class WaterReminderFirebaseJobService extends JobService {
         mBackgroundTask.execute();
         return true;
     }
+
 
     @Override
     public boolean onStopJob(com.firebase.jobdispatcher.JobParameters job) {
