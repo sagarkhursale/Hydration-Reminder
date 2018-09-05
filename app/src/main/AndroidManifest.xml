@@ -16,6 +16,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <!-- Water Reminder Intent-Service -->
         <service android:name=".sync.WaterReminderIntentService"
             android:exported="false"/>
@@ -24,6 +25,9 @@
         <service
             android:name=".sync.WaterReminderFirebaseJobService"
             android:exported="false">
+            <intent-filter>
+                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE"/>
+            </intent-filter>
         </service>
 
     </application>

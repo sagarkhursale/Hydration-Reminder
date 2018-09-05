@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.BatteryManager;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -57,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     private void updateWaterCount() {
         int waterCount = PreferenceUtilities.getWaterCount(this);
-        mWaterCountDisplay.setText(waterCount + "");
+        mWaterCountDisplay.setText(waterCount);
     }
 
 
@@ -116,6 +118,37 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
             showCharging(isCharging);
         }
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        /* Determine the current charging state **/
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            BatteryManager batteryManager = (BatteryManager) getSystemService(BATTERY_SERVICE);
+            showCharging(batteryManager.isCharging());
+        } else {
+            IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+            Intent currentBatteryStatusIntent = registerReceiver(null, ifilter);
+            assert currentBatteryStatusIntent != null;
+            int batteryStatus = currentBatteryStatusIntent.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+            boolean isCharging = batteryStatus == BatteryManager.BATTERY_STATUS_CHARGING ||
+                    batteryStatus == BatteryManager.BATTERY_STATUS_FULL;
+            
+            showCharging(isCharging);
+        }
+
+        /* Register the receiver for future state changes **/
+        registerReceiver(mChargingReceiver, mChargingIntentFilter);
+    }
+
+    
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(mChargingReceiver);
     }
 
     // END
