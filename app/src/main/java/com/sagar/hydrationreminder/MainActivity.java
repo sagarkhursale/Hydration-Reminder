@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         mWaterCountDisplay.setText(waterCount+"");
     }
 
+
     private void updateChargingReminderCount() {
         int chargingReminders = PreferenceUtilities.getChargingReminderCount(this);
         String formattedChargingReminders = getResources().getQuantityString(
@@ -58,9 +59,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     }
 
-
-
-    // Onclick()  
+    // Onclick()
     public void incrementWater(View view) {
         // increment water count using Intent-Service
         Intent incrementWaterCountIntent = new Intent(this, WaterReminderIntentService.class);
