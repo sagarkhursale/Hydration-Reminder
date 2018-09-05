@@ -18,6 +18,8 @@ public  class ReminderTask {
             incrementWaterCount(context);
         }else if (ACTION_DISMISS_NOTIFICATION.equals(action)) {
             NotificationUtil.clearAllNotifications(context);
+        }else if (ACTION_CHARGING_REMINDER.equals(action)) {
+            issueChargingReminder(context);
         }
     }
 
