@@ -4,7 +4,7 @@ import android.content.Context;
 import com.sagar.hydrationreminder.utilities.PreferenceUtilities;
 
 
-public class ReminderTask {
+public  class ReminderTask {
 
     public static final String ACTION_INCREMENT_WATER_COUNT = "increment-water-count";
 
