@@ -12,7 +12,6 @@ public final class PreferenceUtilities {
 
     public static final String KEY_WATER_COUNT = "water-count";
     public static final String KEY_CHARGING_REMINDER_COUNT = "charging-reminder-count";
-
     private static final int DEFAULT_COUNT = 0;
 
 

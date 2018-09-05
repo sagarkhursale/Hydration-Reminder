@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.sagar.hydrationreminder.utilities.PreferenceUtilities;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,9 +26,27 @@ public class MainActivity extends AppCompatActivity {
         mChargingCountDisplay = findViewById(R.id.tv_charging_reminder_count);
         mChargingImageView = findViewById(R.id.iv_power_increment);
 
+        // set original values in ui
+        updateWaterCount();
+        updateChargingReminderCount();
+
 
 
         // end
+    }
+
+
+    private void updateWaterCount() {
+        int waterCount = PreferenceUtilities.getWaterCount(this);
+        mWaterCountDisplay.setText(waterCount+"");
+    }
+
+    private void updateChargingReminderCount() {
+        int chargingReminders = PreferenceUtilities.getChargingReminderCount(this);
+        String formattedChargingReminders = getResources().getQuantityString(
+                R.plurals.charge_notification_count, chargingReminders, chargingReminders);
+        mChargingCountDisplay.setText(formattedChargingReminders);
+
     }
 
 
