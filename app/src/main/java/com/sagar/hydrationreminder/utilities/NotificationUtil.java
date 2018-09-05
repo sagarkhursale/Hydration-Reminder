@@ -15,6 +15,8 @@ import android.support.v4.content.ContextCompat;
 
 import com.sagar.hydrationreminder.MainActivity;
 import com.sagar.hydrationreminder.R;
+import com.sagar.hydrationreminder.sync.ReminderTask;
+import com.sagar.hydrationreminder.sync.WaterReminderIntentService;
 
 
 /**
@@ -25,6 +27,8 @@ public class NotificationUtil {
     private static final int WATER_REMINDER_PENDING_INTENT_ID = 3417;
     private static final int WATER_REMINDER_NOTIFICATION_ID = 1138;
     private static final String WATER_REMINDER_NOTIFICATION_CHANNEL_ID = "reminder_notification_channel";
+    private static final int ACTION_DRINK_PENDING_INTENT_ID = 1;
+    private static final int ACTION_IGNORE_PENDING_INTENT_ID = 14;
 
 
     private static PendingIntent contentIntent(Context context) {
@@ -81,6 +85,21 @@ public class NotificationUtil {
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
         assert notificationManager != null;
         notificationManager.cancelAll();
+    }
+
+
+    private static NotificationCompat.Action drinkWaterAction(Context context) {
+        Intent incrementWaterCountIntent = new Intent(context, WaterReminderIntentService.class);
+        incrementWaterCountIntent.setAction(ReminderTask.ACTION_INCREMENT_WATER_COUNT);
+        PendingIntent incrementWaterPendingIntent = PendingIntent.getService(
+                context,
+                ACTION_DRINK_PENDING_INTENT_ID,
+                incrementWaterCountIntent,
+                PendingIntent.FLAG_CANCEL_CURRENT);
+        NotificationCompat.Action drinkWaterAction = new NotificationCompat.Action(R.drawable.ic_local_drink_black_24px,
+                "I did it!",
+                incrementWaterPendingIntent);
+        return drinkWaterAction;
     }
 
     // END
