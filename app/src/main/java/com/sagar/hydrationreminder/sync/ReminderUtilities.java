@@ -14,7 +14,9 @@ import com.firebase.jobdispatcher.Trigger;
 import java.util.concurrent.TimeUnit;
 
 
-
+/**
+ * Interval at which to remind the user to drink water
+ */
 public class ReminderUtilities {
 
     private static final int REMINDER_INTERVAL_MINUTES = 1;
