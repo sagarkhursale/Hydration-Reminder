@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     IntentFilter mChargingIntentFilter;
     ChargingBroadcastReceiver mChargingReceiver;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     private void updateWaterCount() {
         int waterCount = PreferenceUtilities.getWaterCount(this);
-        mWaterCountDisplay.setText(waterCount);
+        mWaterCountDisplay.setText(waterCount+" ");
     }
 
 
@@ -110,17 +111,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     }
 
 
-    private class ChargingBroadcastReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            boolean isCharging = (action.equals(Intent.ACTION_POWER_CONNECTED));
-
-            showCharging(isCharging);
-        }
-    }
-
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -136,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             int batteryStatus = currentBatteryStatusIntent.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
             boolean isCharging = batteryStatus == BatteryManager.BATTERY_STATUS_CHARGING ||
                     batteryStatus == BatteryManager.BATTERY_STATUS_FULL;
-            
+
             showCharging(isCharging);
         }
 
@@ -144,11 +134,22 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         registerReceiver(mChargingReceiver, mChargingIntentFilter);
     }
 
-    
+
     @Override
     protected void onPause() {
         super.onPause();
         unregisterReceiver(mChargingReceiver);
+    }
+
+
+    private class ChargingBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            boolean isCharging = (action.equals(Intent.ACTION_POWER_CONNECTED));
+
+            showCharging(isCharging);
+        }
     }
 
     // END
