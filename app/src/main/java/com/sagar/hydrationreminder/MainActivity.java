@@ -1,6 +1,7 @@
 package com.sagar.hydrationreminder;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +23,8 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     private TextView mChargingCountDisplay;
     private ImageView mChargingImageView;
 
+    IntentFilter mChargingIntentFilter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,9 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.registerOnSharedPreferenceChangeListener(this);
 
+        mChargingIntentFilter = new IntentFilter();
+        mChargingIntentFilter.addAction(Intent.ACTION_POWER_CONNECTED);
+        mChargingIntentFilter.addAction(Intent.ACTION_POWER_DISCONNECTED);
 
         // end
     }
