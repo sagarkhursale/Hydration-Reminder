@@ -1,5 +1,6 @@
 package com.sagar.hydrationreminder;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.sagar.hydrationreminder.sync.ReminderTask;
+import com.sagar.hydrationreminder.sync.WaterReminderIntentService;
 import com.sagar.hydrationreminder.utilities.PreferenceUtilities;
 
 
@@ -57,8 +60,12 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
 
 
-    // Image Button -Water_Increment..
+    // Onclick()  
     public void incrementWater(View view) {
+        // increment water count using Intent-Service
+        Intent incrementWaterCountIntent = new Intent(this, WaterReminderIntentService.class);
+        incrementWaterCountIntent.setAction(ReminderTask.ACTION_INCREMENT_WATER_COUNT);
+        startService(incrementWaterCountIntent);
     }
 
     @Override
